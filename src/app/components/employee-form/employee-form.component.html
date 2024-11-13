@@ -1,0 +1,136 @@
+<h2>Employee Details Form</h2>
+<div style="display:flex;float:left;width:50%;">
+    <form [formGroup]="employeeDetails" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="form-field-single">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name">
+            <mat-error *ngIf="employeeDetails.controls.name.errors?.required">
+                Name is required.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.name.errors?.minlength">
+                Number of Characters should be greater than 2.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.name.errors?.maxlength">
+                Number of Characters should not be greater than 200.
+            </mat-error>
+        </mat-form-field>        
+        <mat-form-field appearance="outline" class="form-field-single">
+            <mat-label>Age</mat-label>
+            <input matInput type="number" formControlName="age">
+            <mat-error *ngIf="employeeDetails.controls.age.errors?.required">
+                Age is required.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.age.errors?.min">
+                Age should be greater than 17.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.age.errors?.max">
+                Age should not be greater than 99.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.age.errors?.notNaturalNumber && employeeDetails.controls.age.dirty">
+                Age should an Integer.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field-single">
+            <mat-label>Employee ID</mat-label>
+            <input matInput type="text" formControlName="empid">
+            <mat-error *ngIf="employeeDetails.controls.empid.errors?.required">
+                Employee ID is required.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.empid.errors?.minlength">
+                Number of Characters should be greater than 4.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.empid.errors?.maxlength">
+                Number of Characters should not be greater than 7.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field-single">
+            <mat-label>Designation</mat-label>
+            <input matInput type="text" formControlName="designation">
+            <mat-error *ngIf="employeeDetails.controls.designation.errors?.required">
+                Designation is required.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.designation.errors?.minlength">
+                Number of Characters should be greater than 2.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.designation.errors?.maxlength">
+                Number of Characters should not be greater than 200.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field-single">
+            <mat-label>Address</mat-label>
+            <input matInput type="text" formControlName="address">
+            <mat-error *ngIf="employeeDetails.controls.address.errors?.required">
+                Address is required.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.address.errors?.minlength">
+                Number of Characters should be greater than 2.
+            </mat-error>
+            <mat-error *ngIf="employeeDetails.controls.address.errors?.maxlength">
+                Number of Characters should not be greater than 200.
+            </mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary" style="width:70%;">Submit</button>
+    </form>
+</div>
+
+
+<div style="display:flex;float:right;width:50%;">
+    <div style="display:flex;" *ngIf="employeeDataArray.length === 0">
+        <p style="justify-self:center;">No data to display.</p>
+    </div>
+    <table mat-table [dataSource]="employeeDataArray" class="mat-elevation-z8" *ngIf="employeeDataArray.length > 0">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let employee"> {{employee.name}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef> Age </th>
+          <td mat-cell *matCellDef="let employee"> {{employee.age}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="empid">
+            <th mat-header-cell *matHeaderCellDef> EmpID </th>
+            <td mat-cell *matCellDef="let employee"> {{employee.empid}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="designation">
+            <th mat-header-cell *matHeaderCellDef> Designation </th>
+            <td mat-cell *matCellDef="let employee"> {{employee.designation}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="address"> 
+            <th mat-header-cell *matHeaderCellDef> Address </th>
+            <td mat-cell *matCellDef="let employee"> {{employee.address}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef colspan="2"> Actions </th>
+            <td mat-cell *matCellDef="let employee">
+            <button mat-mini-fab aria-label="Example icon button with a delete icon" (click)="editEmployee(employee)">    
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-mini-fab color="warn" aria-label="Example icon button with a delete icon" (click)="deleteEmployee(employee)">    
+                <mat-icon>delete</mat-icon>
+            </button>
+            </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      
+      </table>
+    
+</div>
+
+<div style="display:flex;width:100%;">
+    <pre>
+        <b>Validators</b>
+        Name : minimum 2 -  maximum 200 Characters
+        Age: minimum 18 -  maximum 99 Allowed ; Age should be Integer;
+        EmpID: minimum 5  - maximum 7 Characters
+        Designation:minimum 2 -  maximum 200 Characters
+        Address: minimum 2 -  maximum 200 Characters
+    </pre>
+</div>
+
